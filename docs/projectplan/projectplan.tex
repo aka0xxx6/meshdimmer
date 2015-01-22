@@ -1,0 +1,53 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[margin=3cm]{geometry}
+\usepackage{listings}
+\usepackage{ulem}
+\usepackage{tikz}
+
+\setlength{\parskip}{1mm}
+
+% \includegraphics [height=50mm] {bild.png}
+
+\setlength{\headheight}{40pt}
+
+\begin{document}
+	\title{Microcontroller programming \\
+		Project Plan\\
+		TE663 Uppsala Universitet VT2015}
+	\date{}
+	\author{}
+	\author{Lars Haulin \texttt{lars.haulin.5967@student.uu.se}\\
+		Robin Keller \texttt{robin.keller.4499@student.uu.se}\\
+		Viktor Nordmark \texttt{viktor.nordmark.0315@student.uu.se}}
+	\maketitle
+	
+	\section{Concept}
+	
+	Our idea is to control lights using dimmers and light sensors.
+	The sensors and dimmers communicate with radio over a mesh network.
+	There is also a possibility to add a user interface over the network to control
+	the brightness.
+	
+	Should the room get brighter or darker from sunlight or other illumination,
+	the lights should be adjusted to compensate for this.
+	
+	\section{Primary goals}
+	
+	\begin{itemize}
+		\item To control the brightness of a 230V light bulb with a microcontroller.
+		\item To measure the amount of light in a room with a microcontroller.
+		\item To communicate data between the microcontrollers over a mesh network.
+		\item To make the system capable to compensate for changes in illumination.
+		\item To control the system with a user interface node, also containing
+		a microcontroller.
+	\end{itemize}
+	
+	\section{Secondary goals}
+	
+	
+	
+\end{document}
