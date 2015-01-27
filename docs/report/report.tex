@@ -1,0 +1,73 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[margin=3cm]{geometry}
+\usepackage{listings}
+\usepackage{ulem}
+\usepackage{tikz}
+
+\setlength{\parskip}{1mm}
+
+% \includegraphics [height=50mm] {bild.png}
+
+\setlength{\headheight}{40pt}
+
+\begin{document}
+	\title{Microcontroller programming \\
+		Automatic dimming of lights using mesh network communication\\
+		TE663 Uppsala Universitet VT2015}
+	\date{}
+	\author{}
+	\author{Lars Haulin \texttt{lars.haulin.5967@student.uu.se}\\
+		Robin Keller \texttt{robin.keller.4499@student.uu.se}\\
+		Viktor Nordmark \texttt{viktor.nordmark.0315@student.uu.se}}
+	\maketitle
+	
+   \abstract{In this project, a control system for lights was created.
+   The sensors and dimmers use a mesh network to communicate and keep a constant
+   level of illumination, regardless of external disturbances such as a sudden
+   cloud blocking external sunlight.}
+
+	\section{Concept}
+	
+	Our idea is to control lights using dimmers and light sensors.
+
+   The project concept was chosen to make maximal use of our teams experience
+   in power electronics, automatic control and network algorithms.
+
+	The sensors and dimmers communicate with radio over a mesh network.
+	There is also a possibility to add a user interface over the network to control
+	the brightness.
+	
+	Should the room get brighter or darker from sunlight or other illumination,
+	the lights should be adjusted to compensate for this.
+	
+	\section{Primary goals}
+
+   The primary goals were
+	
+	\begin{itemize}
+		\item To control the brightness of a 230V light bulb with a microcontroller.
+		\item To measure the amount of light in a room with a microcontroller.
+		\item To communicate data between the microcontrollers over a mesh network.
+		\item To make the system capable to compensate for changes in illumination.
+		\item To control the system with a user interface node, also containing
+		a microcontroller.
+	\end{itemize}
+	
+	\section{Secondary goals}
+   Additionally, we put up some secondary goals:
+	\begin{itemize}
+		\item To have several lamps and sensors
+		\item To automate calibration i.e., what lamp affects what sensor
+	\end{itemize}
+
+   \section{Hardware design}
+   As we had previous experience in our team of the nRF24L01+ radio module from
+   Nordic Semiconductor, it was chosen as a base for the mesh network.
+
+   We chose to dim the lights with a triac.
+
+\end{document}
