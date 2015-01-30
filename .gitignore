@@ -8,3 +8,5 @@
 *.elf
 *.hex
 *.o
+/Debug/
+/Release/
