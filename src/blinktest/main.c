@@ -17,9 +17,6 @@
  LED    PB0|14  15|PB1
  */
 
-#if 0
-#define  F_CPU 1000000UL // defines the clock frequency as 1 MHz (unsigned long)
-#endif
 #include <avr/io.h>      // defines all macros and symbols
 #include <util/delay.h>  // defines time delay functions
 
