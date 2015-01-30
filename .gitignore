@@ -4,3 +4,7 @@
 *.log
 *.pdf
 *.synctex.gz
+.DS_STORE
+*.elf
+*.hex
+*.o
