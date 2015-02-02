@@ -192,12 +192,12 @@ void DLL_write_reg(uint8_t reg, uint8_t value) {
 	wiringPiSPIDataRW(DLL_SPI_CHANNEL, data, 2);
 	DLL_status = data[0];
 #elif AVR
-	cli();
+	DLL_DISABLE_INTERRUPT;
 	CSN_CLR;
 	DLL_status = spi_read_write(reg); // select register
 	spi_read_write(value);  			// write value
 	CSN_SET;
-	sei();
+	DLL_ENABLE_INTERRUPT;
 #endif
 }
 
@@ -235,14 +235,14 @@ void DLL_read_buf(uint8_t reg, uint8_t * buffer, uint8_t length) {
 	DLL_status = buf[0];
 #elif AVR
 	uint8_t i = 0;
-	cli();
+	DLL_DISABLE_INTERRUPT;
 	CSN_CLR;
 	DLL_status = spi_read_write(reg);		// select register
 	for (i = 0; i < length; ++i) {			// read buffer
 		buffer[i] = spi_read_write(0x00);
 	}
 	CSN_SET;
-	sei();
+	DLL_ENABLE_INTERRUPT;
 #endif
 
 }
@@ -263,14 +263,14 @@ void DLL_write_buf(uint8_t reg, uint8_t * buffer, uint8_t length) {
 	DLL_status = buf[0];
 #elif AVR
 	uint8_t i;
-	cli();
+	DLL_DISABLE_INTERRUPT;
 	CSN_CLR;
 	DLL_status = spi_read_write(reg);		// select register
 	for (i = 0; i < length; ++i) {			// read buffer
 		spi_read_write(buffer[i]);
 	}
 	CSN_SET;
-	sei();
+	DLL_ENABLE_INTERRUPT;
 #endif
 }
 
@@ -288,11 +288,13 @@ void DLL_print() {
 	DEBUG_byte(':');
 	DLL_read_buf(0x0A, buffer, 5);
 	DEBUG_message(buffer, 5);
+	DEBUG_newline();
 
 	DEBUG_number_hex(0x0B);
 	DEBUG_byte(':');
 	DLL_read_buf(0x0B, buffer, 5);
 	DEBUG_message(buffer, 5);
+	DEBUG_newline();
 
 	for(i = 0x0C; i <= 0x0F; ++i) {
 		DEBUG_number_hex(i);
@@ -305,6 +307,7 @@ void DLL_print() {
 	DEBUG_byte(':');
 	DLL_read_buf(0x10, buffer, 5);
 	DEBUG_message(buffer, 5);
+	DEBUG_newline();
 
 	for(i = 0x11; i <= 0x17; ++i) {
 		DEBUG_number_hex(i);
@@ -466,7 +469,7 @@ uint8_t DLL_send(dll_send_type type, uint8_t receiver_address, uint8_t * data, u
 	DLL_set_tx_address(DLL_address);
 	DLL_rx_mode();
 
-
+#ifdef DEBUG_MODE_DLL
 #ifdef AVR
         DEBUG_message((uint8_t *)"dll s ", 6);
         DEBUG_message(data, length);
@@ -479,6 +482,7 @@ uint8_t DLL_send(dll_send_type type, uint8_t receiver_address, uint8_t * data, u
         }
         printf("\n");
 
+#endif
 #endif
 
 	return !!(status & DLL_STATUS_TX_DS);
@@ -508,7 +512,7 @@ uint8_t DLL_receive(uint8_t * buffer, uint8_t * length) {
 		DLL_write_reg(DLL_CMD_W_REGISTER | DLL_REG0_STATUS, DLL_STATUS_RX_DR);	// clear rx interrupt flag
 		if (DLL_irq_rx_counter > 0)
 			--DLL_irq_rx_counter;
-
+#ifdef DLL_DEBUG_MODE
 #ifdef AVR
 		DEBUG_message((uint8_t *)"dll r ", 6);
 		DEBUG_message(buffer, *length);
@@ -521,6 +525,7 @@ uint8_t DLL_receive(uint8_t * buffer, uint8_t * length) {
 		}
 		printf("\n");
 
+#endif
 #endif
 
 		return 1;
@@ -695,10 +700,8 @@ uint8_t DLL_init(uint8_t address, uint8_t auto_retransmission_count, uint8_t rf_
 #ifdef DEBUG_MODE_DLL
 	DEBUG_message((uint8_t *)"DLL init done!", 16);
 	DEBUG_newline();
-#endif
-
-
 	DLL_print();
+#endif
 
 	return 0;
 }

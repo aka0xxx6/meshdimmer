@@ -20,7 +20,7 @@
 #include <avr/io.h>      // defines all macros and symbols
 #include <util/delay.h>  // defines time delay functions
 
-int main (void)
+int main_1 (void)
 {
     DDRB = 0x01;         // pin 0 of PORTB as output
     DDRC = 0x01;         // pin 1 of PORTC as output

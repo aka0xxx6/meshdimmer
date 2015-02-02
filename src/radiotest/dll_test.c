@@ -8,6 +8,7 @@
 #include "../radio/spi.h"
 #include "../radio/debug.h"
 #include "../radio/dll.h"
+#include "../radio/delay_wrapper.h"
 
 #define DLL_ADDRESS 0x20
 //#define DLL_ADDRESS 0x21
@@ -34,14 +35,22 @@ int main() {
 	while(1) {
 
 		if (DLL_receive(buffer, &length)) {
-			DEBUG_message(buffer, length);
-			DEBUG_newline();
+			//DEBUG_message(buffer, length);
+			//DEBUG_newline();
+			DEBUG_byte('.');
 		}
 
 
 		if (0x21 == DLL_ADDRESS) {
-			DLL_send(DLL_SEND_TYPE_ACK, 0x20, (uint8_t*)"0123456789", 10);
-			DEBUG_byte('.');
+			uint8_t ret =  DLL_send(DLL_SEND_TYPE_ACK, 0x20, (uint8_t*)"01234567891234567890123456789012", 32);
+			if (ret == 0) {
+				DEBUG_number(ret);
+				delay(500);
+			} else {
+				DEBUG_byte('.');
+			}
+
+
 		}
 	}
 
