@@ -69,5 +69,21 @@
    Nordic Semiconductor, it was chosen as a base for the mesh network.
 
    We chose to dim the lights with a triac.
+   
+   \section{Radio Module nRF24L01+}
+   The nRF24L01+ is a radio module which uses the world wide 2.4GHz ISM frequency band. It can operate with an air data rates of 250kbps, 1Mpbs and 2Mbps. To communicate with the radio module the Serial Peripheral Interface used. For every module you can configure a frequency channel and an address. The data which will be sent is shifted to an internal data pipe. With the send-command the data pipe is interpreted as a packet and will send to the previous configured address.
+   
+   You are able to configure the \textit{Enhanced ShockBurst\texttrademark} which is a special data link layer. It supports automatic packets handling, especially auto acknowledge of packets.
+   A communication which uses this auto acknowledge is only working between two nodes which use the same address.
+   
+   \section{Data Link Layer Library for AVR and RaspberryPi}
+   The library for the radio module nRF24L01+ was previous written by Robin Keller and will be reused in this project. Therefore the configuration for the AVR ATmega328 was added to the library.
+   The library does not pass the complete functionality of the radio module to the user. In this library every module has one main address which can be used for auto acknowledge communication and the broadcast address \texttt{0xFF}.
+   
+   After initializing the radio module the module is in receiving mode. Thus it will receive packets to its own address or the broadcast address \texttt{0xFF}. The initializing is done with through the function \texttt{DLL\_init} where you need to set the address, auto retransmission count, RF channel and the air data rate.
+   
+   For sending a packet call the \texttt{DLL\_send} function with the send type, either ask for ACK or does not ask for ACK, receiver address, data and the length of data. The maximum length of one packet is 32 Byte.
+   
+   To receive a packet call the function \texttt{DLL\_receive}, which returns \texttt{0} if there is not received data in the FIFO. To avoid polling this function, there is a variable called \texttt{DLL\_irq\_rx\_counter} which indicated that the radio module received a packet. This variable is set in an interrupt from the radio module.
 
 \end{document}

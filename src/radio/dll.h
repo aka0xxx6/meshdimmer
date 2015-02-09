@@ -148,7 +148,7 @@ uint8_t DLL_init(uint8_t address, uint8_t auto_retransmission_count, uint8_t rf_
  * @param type DLL_SEND_TYPE_ACK or DLL_SEND_TYPE_NO_ACK
  * @param receiver_address address of the receiver
  * @param data data to be send
- * @param length number of bytes to be send
+ * @param length number of bytes to be send, maximum DLL_MAX_PACKET_LEN
  * @return 1: successfully sent; 0 otherwise. For DLL_SEND_TYPE_NO_ACK you will get
  * every time 1.
  */
