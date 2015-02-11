@@ -3,7 +3,6 @@
 	<name>userinterface</name>
 	<comment></comment>
 	<projects>
-		<project>meshdimmer</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
