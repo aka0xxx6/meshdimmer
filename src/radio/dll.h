@@ -84,7 +84,7 @@
 #define CSN_CLR 					PORTB &= ~(1 << PIN_CSN)
 
 
-#elif __AVR_ATmega328P__
+#elif defined(__AVR_ATmega328__) || defined(__AVR_ATmega328P__)
 
 #define PIN_CSN		PB1
 #define PIN_CE 		PB2
