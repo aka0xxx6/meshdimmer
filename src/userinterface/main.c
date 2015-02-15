@@ -10,8 +10,8 @@
 #include "radio/dll.h"
 #include "radio/delay_wrapper.h"
 
-//#define DLL_ADDRESS 0x20
-#define DLL_ADDRESS 0x30
+#define DLL_ADDRESS 0x20
+//#define DLL_ADDRESS 0x30
 
 
 
@@ -78,6 +78,7 @@ int main() {
 		uint8_t length = 0;
 
 		while (1) {
+			DLL_wait_on_rx(1000);
 			if (DLL_receive(buffer, &length)) {
 				if (length == 2) {
 					DEBUG_number(*((uint16_t*)buffer));
