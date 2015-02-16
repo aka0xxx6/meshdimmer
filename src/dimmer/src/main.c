@@ -1,20 +1,31 @@
-// Triac output = PD3
+// Triac output = PD4
 // Zero-cross interrupt PD2
+// Button GND --> PB0
+// Potentimeter--> ADC0
 
 #define F_CPU 1000000UL  // 1MHz internal clock
 //#define fullOn 10
 //#define fullOff 246
 
+
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <stdio.h>
 #include <util/delay.h>
-#include "lcd.h"
+//#include "lcd.h"
 #include <avr/cpufunc.h>
 
-int value;
+uint16_t value;
+uint16_t adcValue;
 
-//dimtime = (39 * value); //100000 - 10 us / 256 = 39
+static inline void initADC0(void) {
+	ADCSRA |= (1 << ADEN); /* enable ADC */
+	ADMUX |= (1 << REFS0); /* reference voltage on AVCC */
+	ADCSRA |= (1 << ADPS1) | (1 << ADPS0); /* ADC clock prescaler /8 */
+
+	DIDR0 = 0x01; //Data Input Disable Register, Disconnects DI
+}
+
 static int dimtime;
 
 ISR (INT0_vect)
@@ -25,7 +36,7 @@ ISR (INT0_vect)
 }
 
 ISR(TIMER1_COMPA_vect){
-	PORTD |= (1 << PD3); // Fire triac
+	PORTD |= (1 << PD4); // Fire triac
 	TIFR1 = (1 << ICF1); // Clear interrupts
 	TIMSK1 &= ~(1 << OCIE1A); // Disable timer interrupt
 
@@ -41,13 +52,15 @@ ISR(TIMER1_COMPA_vect){
 	_NOP();
 	_NOP();
 
-	PORTD &= ~(1 << PD3); // Stop triac
+	PORTD &= ~(1 << PD4); // Stop triac
 }
 
 int main (void)
 {
-	value = 246;
-	DDRD = 0x08;      //PD3 = Output(Triac), the rest is input
+	value = 10;
+	DDRD = 0x10;      //PD4 = Output(Triac), the rest is input
+	initADC0();
+	//lcd_init(LCD_DISP_ON); // initialize LCD
 
 #ifdef EICRA 	// Hack to make Eclipse happy...
 	EICRA |= ( (1<<ISC01) | (1<<ISC00) ); // set INT0 to trigger on RISING edge
@@ -56,19 +69,13 @@ int main (void)
 #error EICRA not defined!
 #endif // End of hack
 
-	lcd_init(LCD_DISP_ON); // initialize LCD
-	//lcd_puts("WELCOME!!");
-	//_delay_ms(1000);
 
-	DDRD &= ~(0b11100000); // makes double-sure we're in input mode on PD5-7
-	PORTD |= (0b11100000); // enables pull-up resistor on PD5-7
+
+	DDRB &= ~(0b00000001); // makes double-sure we're in input mode on PB0
+	PORTB |= (0b00000001); // enables pull-up resistor on PB0
 						   // Write to PORTx for setting pull-ups
 						   // Read from PINx to know if pressed
 
-	DDRB &= ~(1 << PB1); //Input mode
-	PORTB |= (1<<PB1); //Activate pull-up
-
-	DDRB |= 0b00000001; //Led PB0 Output
 
 	//Timer interrupt
 	TCCR1B = (1 << CS10); // Use system clock without prescaling
@@ -79,41 +86,32 @@ int main (void)
 
   while (1)                         // infinite main loop
   {
+	  //value = fullOff;
 	  value = 246;
 
-		if((PINB & (1 << 1)) == 0){ //Button 1 pressed
-
-				value = 10;
-	    }
+	if((PINB & (1 << 0)) == 0){ //Button pressed
 
 
-		else if((PIND & (1 << 5)) == 0){ //Button 2 pressed
+    	 ADCSRA |= (1 << ADSC); /* start ADC conversion */
+    	 loop_until_bit_is_clear(ADCSRA, ADSC); /* wait until done */
+	     adcValue = (ADC/4.0); /* read ADC in */
+	     	 if(adcValue > 226){value = 236;}
+	     	 else
+	     	 	 {
+	     		 	 value = 10 + adcValue;
+	     	 	 }
+	     	//char print[15];
+	     	//sprintf(print, "%d", value); //int --> char[]
+	     	//lcd_puts(print);
 
-	    	value = 78;
-	    }
-
-
-		else if((PIND & (1 << 6))==0){ //Button 3 pressed
-
-	    	value = 130;
-	    }
-
-
-
-		else if((PIND & (1 << 7))==0){ //Button 4 pressed
-
-	    	value = 236;
 	    }
 
 
 
-	    char print[15];
-	    sprintf(print, "%d", value); //int --> char[]
-	    lcd_puts(print);
 
-	    _delay_ms(50);                // wait 1000ms between cycles
-	    lcd_clrscr();
-	    dimtime = 39 * value;
+	    //_delay_ms(50);                // wait 1000ms between cycles
+	    dimtime = 39 * value; //100000 - 10 us / 256 = 39
+	    //lcd_clrscr();
   }
 
 }
