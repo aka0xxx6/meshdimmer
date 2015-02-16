@@ -10,7 +10,7 @@
 #ifdef __AVR_ATmega8__
 #define WHILE_NOT_SENT		while (!( UCSRA & (1 << UDRE))) { }
 #define SEND_REGISTER		UDR
-#elif __AVR_ATmega328P__ || __AVR_ATmega1284P__
+#elif __AVR_ATmega328__ || __AVR_ATmega328P__ || __AVR_ATmega1284P__
 #define WHILE_NOT_SENT		while (!( UCSR0A & (1 << UDRE0))) { }
 #define SEND_REGISTER		UDR0
 #else
@@ -29,7 +29,7 @@ void DEBUG_init() {
 	// 8data, 1stop bit
 	UCSRC = (1 << URSEL) | ( 1 << UCSZ1) | (1 << UCSZ0);
 }
-#elif __AVR_ATmega328P__ || __AVR_ATmega1284P__
+#elif __AVR_ATmega328__ || __AVR_ATmega328P__ || __AVR_ATmega1284P__
 void DEBUG_init() {
 	UBRR0H = DEBUG_BAUDREGISTER >> 8;
 	UBRR0L = DEBUG_BAUDREGISTER & 0xFF;

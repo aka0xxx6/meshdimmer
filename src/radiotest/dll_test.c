@@ -10,8 +10,8 @@
 #include "../radio/dll.h"
 #include "../radio/delay_wrapper.h"
 
-#define DLL_ADDRESS 0x20
-//#define DLL_ADDRESS 0x21
+//#define DLL_ADDRESS 0x20
+#define DLL_ADDRESS 0x21
 
 int main() {
 	uint8_t buffer[DLL_MAX_PACKET_LEN];
@@ -37,7 +37,7 @@ int main() {
 		if (DLL_receive(buffer, &length)) {
 			//DEBUG_message(buffer, length);
 			//DEBUG_newline();
-			DEBUG_byte('.');
+			DEBUG_byte('r');
 		}
 
 
@@ -47,7 +47,7 @@ int main() {
 				DEBUG_number(ret);
 				delay(500);
 			} else {
-				DEBUG_byte('.');
+				DEBUG_byte('s');
 			}
 
 

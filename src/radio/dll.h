@@ -84,7 +84,7 @@
 #define CSN_CLR 					PORTB &= ~(1 << PIN_CSN)
 
 
-#elif __AVR_ATmega328P__
+#elif defined(__AVR_ATmega328__) || defined(__AVR_ATmega328P__)
 
 #define PIN_CSN		PB1
 #define PIN_CE 		PB2
@@ -94,10 +94,10 @@
 #define CE_SET 						PORTB |= (1 << PIN_CE)
 #define CE_CLR 						PORTB &= ~(1 << PIN_CE)
 
-#define DLL_INIT_INTERRUPT			EICRA |= (1 << ISC01); EIMSK |= (1 << INT0)
-#define DLL_ENABLE_INTERRUPT		EIMSK |= (1 << INT0)
-#define DLL_DISABLE_INTERRUPT		EIMSK &= ~(1 << INT0)
-#define DLL_INTERRUPT_VECT 		    INT0_vect
+#define DLL_INIT_INTERRUPT			EICRA |= (1 << ISC11); EIMSK |= (1 << INT1)
+#define DLL_ENABLE_INTERRUPT		EIMSK |= (1 << INT1)
+#define DLL_DISABLE_INTERRUPT		EIMSK &= ~(1 << INT1)
+#define DLL_INTERRUPT_VECT 		    INT1_vect
 
 // SPI
 #define CSN_OUTPUT					DDRB |= (1 << PIN_CSN)
