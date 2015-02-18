@@ -34,7 +34,7 @@ static inline void initADC0(void) {
 	DIDR0 = 0x01; //Data Input Disable Register, Disconnects DI
 }
 
-static int dimtime;
+volatile static int dimtime;
 
 ISR (INT0_vect)
 {
@@ -61,7 +61,18 @@ ISR(TIMER1_COMPA_vect){
 	_NOP();
 	_NOP();
 	*/
-	_delay_us(10);
+	asm volatile("nop");
+	asm volatile("nop");
+	asm volatile("nop");
+	asm volatile("nop");
+	asm volatile("nop");
+	asm volatile("nop");
+	asm volatile("nop");
+	asm volatile("nop");
+	asm volatile("nop");
+	asm volatile("nop");
+
+	//_delay_us(10);
 
 	PORTD &= ~(1 << PD4); // Stop triac
 }
