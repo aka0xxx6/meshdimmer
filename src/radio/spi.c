@@ -13,6 +13,8 @@ void spi_init() {
 	DDRB |= (1 << PIN_MOSI) | (1 << PIN_SCK)
 #ifdef __AVR_ATmega1284P__
 		| (1 << PB4) // SS as output
+#elif  __AVR_ATmega328__ | __AVR_ATmega328P__
+		| (1 << PB2) // SS as output
 #endif
 	;
 
