@@ -5,13 +5,13 @@
  *      Author: robin
  */
 
+#include <stdlib.h>
 #include "radio/spi.h"
 #include "radio/debug.h"
 #include "radio/dll.h"
 #include "radio/delay_wrapper.h"
 
 #define DLL_ADDRESS 0x20
-//#define DLL_ADDRESS 0x30
 
 
 
@@ -39,10 +39,14 @@ uint16_t ADC_read_value(uint8_t channel) {
 }
 
 
-
 int main() {
-	uint16_t adc_value;
+	int16_t adc_value;
+	int16_t adc_value_old = 0;
 	uint8_t dll_ret;
+	uint16_t adc_values[8];
+	uint8_t adc_index = 0;
+	uint32_t adc_avarage = 0;
+	uint8_t i = 0;
 
 	DEBUG_init();
 	DEBUG_message((uint8_t *)"debug init done\n", 16);
@@ -63,29 +67,31 @@ int main() {
 		DEBUG_message((uint8_t *)"DLL init done\n", 14);
 	}
 
-	if (DLL_ADDRESS == 0x20) {
-		while(1) {
-			adc_value = ADC_read_value(0x00);
-			uint8_t ret = DLL_send(DLL_SEND_TYPE_ACK, 0x30, (uint8_t*)&adc_value, 2);
-			DEBUG_number(ret);
+
+
+	while(1) {
+		adc_values[adc_index] = ADC_read_value(0x00);
+		adc_index = (adc_index + 1) % 8;
+
+		adc_avarage = 0;
+		for (i = 0; i < 8; ++i) {
+			adc_avarage += adc_values[i];
+		}
+
+		adc_value = adc_avarage >> 3;
+
+		if (abs(adc_value - adc_value_old) > 5 ) {
+			uint8_t ret1 = DLL_send(DLL_SEND_TYPE_ACK, 0x30, (uint8_t*)&adc_value, 2);
+			uint8_t ret2 = DLL_send(DLL_SEND_TYPE_ACK, 0x31, (uint8_t*)&adc_value, 2);
+			DEBUG_number(adc_value);
+			DEBUG_byte(' ');
+			DEBUG_number(ret1);
+			DEBUG_byte(' ');
+			DEBUG_number(ret2);
 			DEBUG_newline();
-			delay(20);
+			adc_value_old = adc_value;
 		}
-	}
 
-	if (DLL_ADDRESS == 0x30) {
-		uint8_t buffer[DLL_MAX_PACKET_LEN];
-		uint8_t length = 0;
-
-		while (1) {
-			DLL_wait_on_rx(1000);
-			if (DLL_receive(buffer, &length)) {
-				if (length == 2) {
-					DEBUG_number(*((uint16_t*)buffer));
-					DEBUG_newline();
-				}
-			}
-		}
 	}
 
 
