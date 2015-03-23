@@ -20,7 +20,7 @@
 
 //#include <avr/cpufunc.h>
 
-#define DLL_ADDRESS 0x31
+#define DLL_ADDRESS 0x30
 
 uint16_t value;
 uint16_t adcValue;
@@ -86,10 +86,8 @@ int main(void) {
 		DEBUG_message((uint8_t *) "DLL init done\n", 14);
 	}
 
-	value = 10;
 	DDRD |= (1 << PD4);      //PD4 = Output(Triac), the rest is input //0x10
 	initADC0();
-	//lcd_init(LCD_DISP_ON); // initialize LCD
 
 	EICRA |= ((1 << ISC01) | (1 << ISC00)); // set INT0 to trigger on RISING edge
 	EIMSK |= (1 << INT0);     // Turns on INT0
@@ -123,29 +121,29 @@ int main(void) {
 			} else {
 				value = 10 + adcValue;
 			}
-
-			DEBUG_number(value);
-			DEBUG_newline();
-
-			//char print[15];
-			//sprintf(print, "%d", value); //int --> char[]
-			//lcd_puts(print);
-
 		}
 
-		/*if (DLL_receive(buffer, &length)) {
-		 if (length == 2) {
-		 adcValue = *((uint16_t*) buffer);
-		 adcValue = (adcValue / 4.0); // read ADC in
-		 if (adcValue > 226) {
-		 value = 236;
-		 } else {
-		 value = 10 + adcValue;
-		 }
+		if (DLL_receive(buffer, &length)) {
+			if (length == 2) {
+				adcValue = *((uint16_t*) buffer);
+				adcValue = (adcValue / 4.0); // read ADC in
+				if (adcValue > 226) {
+					value = 236;
+				} else {
+					value = 10 + adcValue;
+				}
+			}
 
-		 }
-		 }
-		 */
+
+			DEBUG_message(buffer, length);
+			DEBUG_newline();
+
+			DEBUG_byte('r');
+			DEBUG_byte(' ');
+			DEBUG_number(value);
+			DEBUG_newline();
+		}
+
 		//_delay_ms(50);                // wait 1000ms between cycles
 		dimtime = 39 * value; //100000 - 10 us / 256 = 39
 
