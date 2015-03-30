@@ -1,0 +1,58 @@
+PCBNEW-LibModule-V1  Mon 23 Mar 2015 01:37:49 PM CET
+# encoding utf-8
+Units mm
+$INDEX
+OTDFN6
+$EndINDEX
+$MODULE OTDFN6
+Po 0 0 0 15 55100848 00000000 ~~
+Li OTDFN6
+Sc 0
+AR 
+Op 0 0 0
+T0 0.127 -2.032 1 1 0 0.15 N V 21 N "OTDFN6"
+T1 0 2.413 1 1 0 0.15 N V 21 N "VAL**"
+$PAD
+Sh "1" R 0.75 0.3 0 0 0
+Dr 0 0 0
+At SMD N 00028000
+Ne 0 ""
+Po -0.75 -0.65
+$EndPAD
+$PAD
+Sh "2" R 0.75 0.3 0 0 0
+Dr 0 0 0
+At SMD N 00028000
+Ne 0 ""
+Po -0.762 0
+$EndPAD
+$PAD
+Sh "3" R 0.75 0.3 0 0 0
+Dr 0 0 0
+At SMD N 00028000
+Ne 0 ""
+Po -0.762 0.635
+$EndPAD
+$PAD
+Sh "4" R 0.75 0.3 0 0 0
+Dr 0 0 0
+At SMD N 00028000
+Ne 0 ""
+Po 0.762 0.635
+$EndPAD
+$PAD
+Sh "5" R 0.75 0.3 0 0 0
+Dr 0 0 0
+At SMD N 00028000
+Ne 0 ""
+Po 0.762 0
+$EndPAD
+$PAD
+Sh "6" R 0.75 0.3 0 0 0
+Dr 0 0 0
+At SMD N 00028000
+Ne 0 ""
+Po 0.762 -0.635
+$EndPAD
+$EndMODULE OTDFN6
+$EndLIBRARY

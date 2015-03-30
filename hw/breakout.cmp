@@ -1,0 +1,17 @@
+Cmp-Mod V01 Created by CvPcb (2013-mar-13)-testing date = Mon 23 Mar 2015 01:41:17 PM CET
+
+BeginCmp
+TimeStamp = /55100322;
+Reference = P1;
+ValeurCmp = DIL6;
+IdModule  = DIP-6__300;
+EndCmp
+
+BeginCmp
+TimeStamp = /55100305;
+Reference = U1;
+ValeurCmp = MAX4406;
+IdModule  = OTDFN6;
+EndCmp
+
+EndListe
