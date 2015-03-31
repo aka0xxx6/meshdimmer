@@ -17,6 +17,8 @@
 #error PLATFORM NOT SUPPORTED
 #endif
 
+/* Supress some LINT warnings */
+/*@-boolops -type -predboolint -exportlocal@*/
 
 #ifdef __AVR_ATmega8__
 void DEBUG_init() {
@@ -86,12 +88,13 @@ void DEBUG_number(uint16_t u) {
 }
 
 void DEBUG_number_hex(uint8_t u) {
+	uint8_t hex;
 	WHILE_NOT_SENT;
 	SEND_REGISTER = '0';
 	WHILE_NOT_SENT;
 	SEND_REGISTER = 'x';
-	
-	uint8_t hex = u / 16;
+
+	hex = u / 16;
 	if (hex < 10) {
 		WHILE_NOT_SENT;
 		SEND_REGISTER = hex + '0';
