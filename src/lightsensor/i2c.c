@@ -9,8 +9,8 @@ void i2c_init(void) {
    /* TODO: set up I2C IRQ */
 
    /* initialize TWI clock */
-   TWSR = 0U;
-   TWBR = 0x30U;       /* smallest TWBR value, see note [5] */
+   TWSR = (uint8_t) 0U;
+   TWBR = (uint8_t) 0x30U;       /* smallest TWBR value, see note [5] */
 }
 
 enum i2c_command {
@@ -40,7 +40,7 @@ static uint8_t i2c_transmit(enum i2c_command cmd) {
          return 0;
    }
 
-   PORTB = (1U<<1); /* for timing */
+   PORTB = (uint8_t) (1U<<1); /* for timing */
    /* Wait until TWINT in TWCR is set */
    while((TWCR & (1<<TWINT)) == 0) {
       /* Spin wait */
@@ -123,7 +123,7 @@ static void readOnce( uint8_t addr) {
    /* Only reached on ACK */
 
    /* Data bytes reading starts here */
-   for(counter=0; counter<0x22U; counter++) {
+   for(counter=0; counter<(typeof(counter))0x22U; counter++) {
       tmp = i2c_transmit(I2C_READ);
       if(tmp == TW_MR_DATA_ACK) {
 #if 0
@@ -148,7 +148,7 @@ static void readOnce( uint8_t addr) {
 
 void i2c_test(void) {
    for(;;) {
-      readOnce(0x41U);
+      readOnce( (uint8_t) 0x41U);
    }
 }
 

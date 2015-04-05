@@ -58,147 +58,147 @@
 /** \ingroup util_twi
     \def TW_START
     start condition transmitted */
-#define TW_START		0x08U
+#define TW_START		((uint8_t) 0x08U)
 
 /** \ingroup util_twi
     \def TW_REP_START
     repeated start condition transmitted */
-#define TW_REP_START		0x10U
+#define TW_REP_START		((uint8_t) 0x10U)
 
 /* Master Transmitter */
 /** \ingroup util_twi
     \def TW_MT_SLA_ACK
     SLA+W transmitted, ACK received */
-#define TW_MT_SLA_ACK		0x18U
+#define TW_MT_SLA_ACK		((uint8_t) 0x18U)
 
 /** \ingroup util_twi
     \def TW_MT_SLA_NACK
     SLA+W transmitted, NACK received */
-#define TW_MT_SLA_NACK		0x20U
+#define TW_MT_SLA_NACK		((uint8_t) 0x20U)
 
 /** \ingroup util_twi
     \def TW_MT_DATA_ACK
     data transmitted, ACK received */
-#define TW_MT_DATA_ACK		0x28U
+#define TW_MT_DATA_ACK		((uint8_t) 0x28U)
 
 /** \ingroup util_twi
     \def TW_MT_DATA_NACK
     data transmitted, NACK received */
-#define TW_MT_DATA_NACK		0x30U
+#define TW_MT_DATA_NACK		((uint8_t) 0x30U)
 
 /** \ingroup util_twi
     \def TW_MT_ARB_LOST
     arbitration lost in SLA+W or data */
-#define TW_MT_ARB_LOST		0x38U
+#define TW_MT_ARB_LOST		((uint8_t) 0x38U)
 
 /* Master Receiver */
 /** \ingroup util_twi
     \def TW_MR_ARB_LOST
     arbitration lost in SLA+R or NACK */
-#define TW_MR_ARB_LOST		0x38U
+#define TW_MR_ARB_LOST		((uint8_t) 0x38U)
 
 /** \ingroup util_twi
     \def TW_MR_SLA_ACK
     SLA+R transmitted, ACK received */
-#define TW_MR_SLA_ACK		0x40U
+#define TW_MR_SLA_ACK		((uint8_t) 0x40U)
 
 /** \ingroup util_twi
     \def TW_MR_SLA_NACK
     SLA+R transmitted, NACK received */
-#define TW_MR_SLA_NACK		0x48U
+#define TW_MR_SLA_NACK		((uint8_t) 0x48U)
 
 /** \ingroup util_twi
     \def TW_MR_DATA_ACK
     data received, ACK returned */
-#define TW_MR_DATA_ACK		0x50U
+#define TW_MR_DATA_ACK		((uint8_t) 0x50U)
 
 /** \ingroup util_twi
     \def TW_MR_DATA_NACK
     data received, NACK returned */
-#define TW_MR_DATA_NACK		0x58U
+#define TW_MR_DATA_NACK		((uint8_t) 0x58U)
 
 /* Slave Transmitter */
 /** \ingroup util_twi
     \def TW_ST_SLA_ACK
     SLA+R received, ACK returned */
-#define TW_ST_SLA_ACK		0xA8U
+#define TW_ST_SLA_ACK		((uint8_t) 0xA8U)
 
 /** \ingroup util_twi
     \def TW_ST_ARB_LOST_SLA_ACK
     arbitration lost in SLA+RW, SLA+R received, ACK returned */
-#define TW_ST_ARB_LOST_SLA_ACK	0xB0U
+#define TW_ST_ARB_LOST_SLA_ACK	((uint8_t) 0xB0U)
 
 /** \ingroup util_twi
     \def TW_ST_DATA_ACK
     data transmitted, ACK received */
-#define TW_ST_DATA_ACK		0xB8U
+#define TW_ST_DATA_ACK		((uint8_t) 0xB8U)
 
 /** \ingroup util_twi
     \def TW_ST_DATA_NACK
     data transmitted, NACK received */
-#define TW_ST_DATA_NACK		0xC0U
+#define TW_ST_DATA_NACK		((uint8_t) 0xC0U)
 
 /** \ingroup util_twi
     \def TW_ST_LAST_DATA
     last data byte transmitted, ACK received */
-#define TW_ST_LAST_DATA		0xC8U
+#define TW_ST_LAST_DATA		((uint8_t) 0xC8U)
 
 /* Slave Receiver */
 /** \ingroup util_twi
     \def TW_SR_SLA_ACK
     SLA+W received, ACK returned */
-#define TW_SR_SLA_ACK		0x60U
+#define TW_SR_SLA_ACK		((uint8_t) 0x60U)
 
 /** \ingroup util_twi
     \def TW_SR_ARB_LOST_SLA_ACK
     arbitration lost in SLA+RW, SLA+W received, ACK returned */
-#define TW_SR_ARB_LOST_SLA_ACK	0x68U
+#define TW_SR_ARB_LOST_SLA_ACK	((uint8_t) 0x68U)
 
 /** \ingroup util_twi
     \def TW_SR_GCALL_ACK
     general call received, ACK returned */
-#define TW_SR_GCALL_ACK		0x70U
+#define TW_SR_GCALL_ACK		((uint8_t) 0x70U)
 
 /** \ingroup util_twi
     \def TW_SR_ARB_LOST_GCALL_ACK
     arbitration lost in SLA+RW, general call received, ACK returned */
-#define TW_SR_ARB_LOST_GCALL_ACK 0x78U
+#define TW_SR_ARB_LOST_GCALL_ACK ((uint8_t) 0x78U)
 
 /** \ingroup util_twi
     \def TW_SR_DATA_ACK
     data received, ACK returned */
-#define TW_SR_DATA_ACK		0x80U
+#define TW_SR_DATA_ACK		((uint8_t) 0x80U)
 
 /** \ingroup util_twi
     \def TW_SR_DATA_NACK
     data received, NACK returned */
-#define TW_SR_DATA_NACK		0x88U
+#define TW_SR_DATA_NACK		((uint8_t) 0x88U)
 
 /** \ingroup util_twi
     \def TW_SR_GCALL_DATA_ACK
     general call data received, ACK returned */
-#define TW_SR_GCALL_DATA_ACK	0x90U
+#define TW_SR_GCALL_DATA_ACK	((uint8_t) 0x90U)
 
 /** \ingroup util_twi
     \def TW_SR_GCALL_DATA_NACK
     general call data received, NACK returned */
-#define TW_SR_GCALL_DATA_NACK	0x98U
+#define TW_SR_GCALL_DATA_NACK	((uint8_t) 0x98U)
 
 /** \ingroup util_twi
     \def TW_SR_STOP
     stop or repeated start condition received while selected */
-#define TW_SR_STOP		0xA0U
+#define TW_SR_STOP		((uint8_t) 0xA0U)
 
 /* Misc */
 /** \ingroup util_twi
     \def TW_NO_INFO
     no state information available */
-#define TW_NO_INFO		0xF8U
+#define TW_NO_INFO		((uint8_t) 0xF8U)
 
 /** \ingroup util_twi
     \def TW_BUS_ERROR
     illegal start or stop condition */
-#define TW_BUS_ERROR		0x00U
+#define TW_BUS_ERROR		((uint8_t) 0x00U)
 
 
 /**

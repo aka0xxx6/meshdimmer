@@ -1,4 +1,4 @@
-LINTFLAGS := -sys-dirs /usr/include/sys/:/opt/local/avr/include/ -unrecogcomments  -checks -isoreserved +charintliteral
+LINTFLAGS := -sys-dirs /usr/include/sys/:/opt/local/avr/include/:/usr/lib/avr/include -unrecogcomments  -checks -isoreserved +charintliteral
 
 # DEVICE ....... The AVR device you compile for
 # CLOCK ........ Target AVR clock rate in Hertz
@@ -55,7 +55,7 @@ all:	lint main.hex
 
 .PHONY:
 lint: $(OBJECTS:.o=.c)
-	splint -DF_CPU=$(CLOCK) -DAVR -D__AVR_ATmega328P__ -I /opt/local/avr/include/  -I ../radio +nolib $(LINTFLAGS) $^
+	splint -DF_CPU=$(CLOCK) -DAVR -D__AVR_ATmega328P__ -I /usr/lib/avr/include -I /opt/local/avr/include/  -I ../radio +posixlib $(LINTFLAGS) $^
 
 .c.o:
 	$(COMPILE) -c $< -o $@

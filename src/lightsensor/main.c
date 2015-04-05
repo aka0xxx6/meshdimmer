@@ -16,9 +16,9 @@ int main(void)
       TODO: REMOVE once i2c communication works as intended.
     */
    {
-      DDRB = (1U<<1);
+      DDRB = (uint8_t) (1U<<1);
       PORTB = 0;
-      PORTB = (1U<<1);
+      PORTB = (uint8_t) (1U<<1);
       PORTB = 0;
    }
 
