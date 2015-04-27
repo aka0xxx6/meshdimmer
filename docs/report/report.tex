@@ -85,5 +85,17 @@
    For sending a packet call the \texttt{DLL\_send} function with the send type, either ask for ACK or does not ask for ACK, receiver address, data and the length of data. The maximum length of one packet is 32 Byte.
    
    To receive a packet call the function \texttt{DLL\_receive}, which returns \texttt{0} if there is not received data in the FIFO. To avoid polling this function, there is a variable called \texttt{DLL\_irq\_rx\_counter} which indicated that the radio module received a packet. This variable is set in an interrupt from the radio module.
+   
+     \section{Power electronics}
+     The project utilizes 230 Volt direct from a standard power socket. In order to handle this potential risk of electric shock as safe as possible we chose to use an optocoupler and a triac for the dimming effect and a 
+
+
+
+
+
+
+
+
+
 
 \end{document}

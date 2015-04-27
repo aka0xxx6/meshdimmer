@@ -22,8 +22,7 @@
 
 #define DLL_ADDRESS 0x30
 
-uint16_t value;
-uint16_t adcValue;
+
 
 static inline void initADC0(void) {
 	ADCSRA |= (1 << ADEN); /* enable ADC */
@@ -42,31 +41,24 @@ ISR (INT0_vect) {
 }
 
 ISR(TIMER1_COMPA_vect) {
-	PORTD |= (1 << PD4); // Fire triac
 	TIFR1 |= (1 << ICF1); // Clear interrupts
 	TIMSK1 &= ~(1 << OCIE1A); // Disable timer interrupt
 
+	PORTD |= (1 << PD4); // Fire triac
 	// Wait 10 us, busy wait
-	/*
-	 _NOP();
-	 _NOP();
-	 _NOP();
-	 _NOP();
-	 _NOP();
-	 _NOP();
-	 _NOP();
-	 _NOP();
-	 _NOP();
-	 _NOP();
-	 */
-	//_delay_loop_2(1); //four cpu cycles // 1 MHz
+	// 1 MHz
+	//_delay_loop_2(1); //four cpu cycles
 	//_delay_loop_1(2), //six cpu cycles
-	_delay_loop_2(20); //four cpu cycles // 8 MHz
+
+	// 8 MHz
+	_delay_loop_2(20); //80 cpu cycles
 
 	PORTD &= ~(1 << PD4); // Stop triac
 }
 
 int main(void) {
+	uint16_t value;
+	uint16_t adcValue;
 	uint8_t dll_ret;
 	uint8_t buffer[DLL_MAX_PACKET_LEN];
 	uint8_t length;
@@ -102,16 +94,14 @@ int main(void) {
 	TCCR1B |= (1 << CS11); // 8 Mhz
 	TIFR1 |= (1 << ICF1); // Clear interrupts
 
-	sei();
 	// turn on interrupts
+	sei();
+
 
 	value = 220;
 	while (1)                         // infinite main loop
 	{
-		//value = fullOff;
-		//value = 246;
-
-		if ((PINB & (1 << 0)) == 0) { //Button pressed
+		if ((PINB & (1 << 0)) == 0) { // Button pressed
 
 			ADCSRA |= (1 << ADSC); // start ADC conversion
 			loop_until_bit_is_clear(ADCSRA, ADSC); // wait until done
@@ -121,12 +111,15 @@ int main(void) {
 			} else {
 				value = 10 + adcValue;
 			}
+			DEBUG_byte('b');
+			DEBUG_number(value);
+			DEBUG_newline();
 		}
 
 		if (DLL_receive(buffer, &length)) {
 			if (length == 2) {
 				adcValue = *((uint16_t*) buffer);
-				adcValue = (adcValue / 4.0); // read ADC in
+				adcValue = (adcValue / 4.0);
 				if (adcValue > 226) {
 					value = 236;
 				} else {
@@ -134,21 +127,16 @@ int main(void) {
 				}
 			}
 
-
 			DEBUG_message(buffer, length);
 			DEBUG_newline();
-
 			DEBUG_byte('r');
-			DEBUG_byte(' ');
 			DEBUG_number(value);
 			DEBUG_newline();
 		}
 
-		//_delay_ms(50);                // wait 1000ms between cycles
+
+		_delay_ms(50);        // wait 50ms between cycles
 		dimtime = 39 * value; //100000 - 10 us / 256 = 39
-
-		//lcd_clrscr();
-
 	}
 
 }
