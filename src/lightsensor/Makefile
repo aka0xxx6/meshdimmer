@@ -1,4 +1,4 @@
-LINTFLAGS := -sys-dirs /usr/include/sys/:/opt/local/avr/include/:/usr/lib/avr/include -unrecogcomments  -checks -isoreserved +charintliteral
+LINTFLAGS := -sys-dirs /usr/include/sys/:/opt/local/avr/include/:/usr/lib/avr/include:../radio -unrecogcomments  -checks -isoreserved +charintliteral
 
 # DEVICE ....... The AVR device you compile for
 # CLOCK ........ Target AVR clock rate in Hertz
@@ -15,7 +15,8 @@ LINTFLAGS := -sys-dirs /usr/include/sys/:/opt/local/avr/include/:/usr/lib/avr/in
 DEVICE     = atmega328p
 CLOCK      = 1000000
 PROGRAMMER = -B 5 -c usbasp -F
-OBJECTS    = main.o i2c.o debug.o
+LINTOBJECTS    = main.o i2c.o debug.o
+OBJECTS = $(LINTOBJECTS) dll.o spi.o delay_wrapper.o
 FUSES      = -U hfuse:w:0xd9:m -U lfuse:w:0x24:m
 
 # ATMega8 fuse bits used above (fuse bits for other devices are different!):
@@ -54,7 +55,7 @@ all:	lint main.hex
 
 
 .PHONY:
-lint: $(OBJECTS:.o=.c)
+lint: $(LINTOBJECTS:.o=.c)
 	splint -DF_CPU=$(CLOCK) -DAVR -D__AVR_ATmega328P__ -I /usr/lib/avr/include -I /opt/local/avr/include/  -I ../radio +posixlib $(LINTFLAGS) $^
 
 .c.o:

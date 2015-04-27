@@ -10,7 +10,7 @@
 
 #include <stdint.h>
 
-//************************** DLL CONFIG ****************************//
+/************************** DLL CONFIG ****************************/
 // options
 #define DLL_BROADCAST_ADDRESS 	0xFF
 #define DLL_SEND_TIMEOUT_MS		10 /**< Maximal timeout on send for receiving an ACK */
@@ -114,7 +114,7 @@
 #endif
 
 
-//************************** DLL DEFINITIONS ************************//
+/************************** DLL DEFINITIONS ************************/
 #define DLL_MAX_PACKET_LEN 			0x20 /**< max packet length is 32 */
 
 typedef enum {
@@ -129,7 +129,7 @@ typedef enum {
 extern volatile uint8_t DLL_irq_rx_counter;
 
 
-//************************ DLL FUNCTIONS **************************//
+/************************ DLL FUNCTIONS **************************/
 
 /**
  * Initial the Date Link Layer hardware. SPI have to be initialized before calling this function.
@@ -161,7 +161,7 @@ uint8_t DLL_send(dll_send_type type, uint8_t receiver_address, uint8_t * data, u
  * @param length number of bytes received
  * @return return: 0: nothing received; otherwise received a packet
  */
-uint8_t DLL_receive(uint8_t * buffer, uint8_t * length);
+uint8_t DLL_receive(/*@out@*/ uint8_t * buffer, /*@out@*/ uint8_t * length);
 
 /**
  * Store data in the data pipes of the radio module. When the module sends an ACK
@@ -194,7 +194,7 @@ void DLL_standby(uint8_t activate);
 /**
  * Print all registers via DEBUG interface for debug purpose.
  */
-void DLL_print();
+void DLL_print(void);
 
 
 #endif /* DLL_H_ */

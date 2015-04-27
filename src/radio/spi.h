@@ -22,7 +22,7 @@
 /**
  * Initialize SPI: Set port direction and enable SPI module.
  */
-void spi_init();
+void spi_init(void);
 
 /**
  * Reads and writes one byte from/to SPI port.
