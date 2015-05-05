@@ -33,13 +33,17 @@ static void initHardware(void ) {
 
 int main(void)
 {
-#if 1
    /* radio module */
    uint8_t radio_buf[DLL_MAX_PACKET_LEN];
    uint8_t radio_packet_len;
+   uint16_t sensor_data = (uint16_t) 10000;
+   uint16_t radio_data = (uint16_t) 10000;
+   uint16_t control_output = 0;
 
    /* PID controller */
+
    int16_t P_error = 0;
+#if 0
    int16_t P_error_prev = 0;
    int16_t I_error = 0;
    int16_t D_error = 0;
@@ -72,9 +76,6 @@ TODO: REMOVE once i2c communication works as intended.
 
 #else
    for(;;) {
-      uint16_t sensor_data = (uint16_t) 10000;
-      uint16_t radio_data = (uint16_t) 10000;
-      uint16_t control_output;
 
       /* Try to get new input data from radio or sensor */
       bool new_radio_data = (bool) DLL_receive(radio_buf, &radio_packet_len);
@@ -91,26 +92,42 @@ TODO: REMOVE once i2c communication works as intended.
          }
          if(new_sensor_data) {
             sensor_data = i2c_getValue();
-            DEBUG_number(sensor_data);
-            DEBUG_newline();
-            DEBUG_byte((uint8_t) '\r');
          }
 
          /* TODO: transform sensor_data and radio_data to same value range */
 
+         if (sensor_data > radio_data) {
+            /* Too bright */
+            DEBUG_byte((uint8_t) '+');
+            if(control_output < (uint16_t) 1013) {
+               control_output += (uint16_t) 10;
+            }
+         }
+         else {
+            /* Too dark */
+            DEBUG_byte((uint8_t) '-');
+            if(control_output > 0) {
+               control_output -= (uint16_t) 10;
+            }
+         }
+#if 0
          P_error_prev = P_error;
          P_error = (int16_t)radio_data - (int16_t)sensor_data;
          I_error += P_error;
          D_error = P_error - P_error_prev;
 
-#if 1
          control_output = (uint16_t) (PID_P_GAIN * P_error +
                PID_I_GAIN * I_error + PID_D_GAIN * D_error);
-#else
-         control_output = sensor_data;
 #endif
 
          /* TODO: transform output data to right value range */
+         DEBUG_number(sensor_data);
+         DEBUG_byte((uint8_t) ' ');
+         DEBUG_number(control_output);
+         DEBUG_newline();
+         DEBUG_number((uint16_t) P_error);
+         DEBUG_newline();
+         DEBUG_byte((uint8_t) '\r');
 
          /* send control output to dimmer */
          (void) DLL_send(DLL_SEND_TYPE_ACK, (uint8_t) 0x30,
