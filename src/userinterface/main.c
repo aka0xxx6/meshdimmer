@@ -83,11 +83,14 @@ int main() {
 		if (abs(adc_value - adc_value_old) > 5 ) {
 			uint8_t ret1 = DLL_send(DLL_SEND_TYPE_ACK, 0x30, (uint8_t*)&adc_value, 2);
 			uint8_t ret2 = DLL_send(DLL_SEND_TYPE_ACK, 0x31, (uint8_t*)&adc_value, 2);
+			uint8_t ret3 = DLL_send(DLL_SEND_TYPE_ACK, 0x25, (uint8_t*)&adc_value, 2);
 			DEBUG_number(adc_value);
 			DEBUG_byte(' ');
 			DEBUG_number(ret1);
 			DEBUG_byte(' ');
 			DEBUG_number(ret2);
+			DEBUG_newline();
+			DEBUG_number(ret3);
 			DEBUG_newline();
 			adc_value_old = adc_value;
 		}
