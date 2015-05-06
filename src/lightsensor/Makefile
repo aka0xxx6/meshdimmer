@@ -13,7 +13,7 @@ LINTFLAGS := -sys-dirs /usr/include/sys/:/opt/local/avr/include/:/usr/lib/avr/in
 # FUSES ........ Parameters for avrdude to flash the fuses appropriately.
 
 DEVICE     = atmega328p
-CLOCK      = 1000000
+CLOCK      = 8000000
 PROGRAMMER = -B 5 -c usbasp -F
 LINTOBJECTS    = main.o i2c.o debug.o
 OBJECTS = $(LINTOBJECTS) dll.o spi.o delay_wrapper.o
