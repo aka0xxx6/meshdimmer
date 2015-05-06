@@ -6,9 +6,9 @@
 #include "delay_wrapper.h"
 
 
-#define PID_P_GAIN 100
-#define PID_I_GAIN 1
-#define PID_D_GAIN 10
+#define PID_P_GAIN 0.4
+#define PID_I_GAIN 0.0002
+#define PID_D_GAIN 0.10
 
 
 #define DLL_ADDRESS ((uint8_t) 0x25)
@@ -37,17 +37,17 @@ int main(void)
    uint8_t radio_buf[DLL_MAX_PACKET_LEN];
    uint8_t radio_packet_len;
    uint16_t sensor_data = (uint16_t) 10000;
-   uint16_t radio_data = (uint16_t) 10000;
-   uint16_t control_output = 0;
+   uint16_t radio_data = (uint16_t) 625;
+   int16_t new_system_state = (int16_t)0;
+   uint16_t new_dim_value = (uint16_t)0;
 
    /* PID controller */
 
    int16_t P_error = 0;
-#if 0
    int16_t P_error_prev = 0;
    int16_t I_error = 0;
    int16_t D_error = 0;
-#endif
+   int16_t control_output = 0;
 
    /*
       Toggle pin PB1 once at reset, to trigger logic analyzer
@@ -92,10 +92,13 @@ TODO: REMOVE once i2c communication works as intended.
          }
          if(new_sensor_data) {
             sensor_data = i2c_getValue();
+
          }
 
          /* TODO: transform sensor_data and radio_data to same value range */
+         sensor_data >>= 3;
 
+#if 0
          if (sensor_data > radio_data) {
             /* Too bright */
             DEBUG_byte((uint8_t) '+');
@@ -110,28 +113,44 @@ TODO: REMOVE once i2c communication works as intended.
                control_output -= (uint16_t) 10;
             }
          }
-#if 0
-         P_error_prev = P_error;
-         P_error = (int16_t)radio_data - (int16_t)sensor_data;
-         I_error += P_error;
-         D_error = P_error - P_error_prev;
-
-         control_output = (uint16_t) (PID_P_GAIN * P_error +
-               PID_I_GAIN * I_error + PID_D_GAIN * D_error);
 #endif
 
-         /* TODO: transform output data to right value range */
+
+         P_error_prev = P_error;
+         P_error = (int16_t)(radio_data - sensor_data);
+         I_error += P_error;
+         D_error = P_error - P_error_prev;
+         control_output = PID_P_GAIN * P_error + PID_I_GAIN * I_error + PID_D_GAIN * D_error;
+
+         new_system_state = new_system_state + control_output;
+         if (new_system_state > 1013) {
+        	 new_system_state = 1013;
+         } else if (new_system_state < 0) {
+        	 new_system_state = 0;
+         }
+         new_dim_value = 1013 - new_system_state;
+#if 0
+         DEBUG_number(radio_data);
+         DEBUG_byte((uint8_t) ' ');
          DEBUG_number(sensor_data);
          DEBUG_byte((uint8_t) ' ');
+         DEBUG_number(P_error);
+         DEBUG_byte((uint8_t) ' ');
+         DEBUG_number(I_error);
+		 DEBUG_byte((uint8_t) ' ');
+		 DEBUG_number(D_error);
+		 DEBUG_byte((uint8_t) ' ');
          DEBUG_number(control_output);
-         DEBUG_newline();
-         DEBUG_number((uint16_t) P_error);
-         DEBUG_newline();
+         DEBUG_byte((uint8_t) ' ');
+         DEBUG_number(new_dim_value);
          DEBUG_byte((uint8_t) '\r');
+         DEBUG_newline();
+#endif
+
 
          /* send control output to dimmer */
          (void) DLL_send(DLL_SEND_TYPE_ACK, (uint8_t) 0x30,
-               (uint8_t*)&control_output, sizeof(control_output));
+               (uint8_t*)&new_dim_value, sizeof(new_dim_value));
       }
    }
 #endif
