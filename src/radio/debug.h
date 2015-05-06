@@ -11,6 +11,7 @@ void DEBUG_newline(void);
 void DEBUG_byte(uint8_t data);
 void DEBUG_message(uint8_t * msg, uint8_t len);
 void DEBUG_number(uint16_t u);
+void DEBUG_number_signed(int16_t s);
 void DEBUG_number_hex(uint8_t u);
 
 #define DEBUG_puts(x) do { DEBUG_message((uint8_t *)(x), (uint8_t)strlen(x));} while (0==1)

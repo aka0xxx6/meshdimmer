@@ -87,6 +87,16 @@ void DEBUG_number(uint16_t u) {
 	SEND_REGISTER = (u % 10)  + '0';
 }
 
+void DEBUG_number_signed(int16_t s) {
+	if (0x8000 | s) {
+		WHILE_NOT_SENT;
+		SEND_REGISTER = '-';
+		s = ~s;
+		s += 1;
+	}
+	DEBUG_number(s);
+}
+
 void DEBUG_number_hex(uint8_t u) {
 	uint8_t hex;
 	WHILE_NOT_SENT;
