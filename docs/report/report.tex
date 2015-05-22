@@ -78,13 +78,15 @@
    
    \section{Data Link Layer Library for AVR and RaspberryPi}
    The library for the radio module nRF24L01+ was previous written by Robin Keller and will be reused in this project. Therefore the configuration for the AVR ATmega328 was added to the library.
-   The library does not pass the complete functionality of the radio module to the user. In this library every module has one main address which can be used for auto acknowledge communication and the broadcast address \texttt{0xFF}.
+   The library does not pass the complete functionality of the radio module to the user. Unicast and broadcast functionality is implemented. The module identification for unicast communication takes place by an unique address per module. For broadcast communication the address \texttt{0xFF} is reserved.
    
-   After initializing the radio module the module is in receiving mode. Thus it will receive packets to its own address or the broadcast address \texttt{0xFF}. The initializing is done with through the function \texttt{DLL\_init} where you need to set the address, auto retransmission count, RF channel and the air data rate.
+   After initializing the radio module the module is in receiving mode. Thus it will receive packets to its own address or the broadcast address \texttt{0xFF}. The auto acknowledge feature of the nRF24L01+ is automatically enabled by library.
    
-   For sending a packet call the \texttt{DLL\_send} function with the send type, either ask for ACK or does not ask for ACK, receiver address, data and the length of data. The maximum length of one packet is 32 Byte.
+   The module can be initialize by calling the function \texttt{DLL\_init} where you need to set the address, auto retransmission count, RF channel and the air data rate.
    
-   To receive a packet call the function \texttt{DLL\_receive}, which returns \texttt{0} if there is not received data in the FIFO. To avoid polling this function, there is a variable called \texttt{DLL\_irq\_rx\_counter} which indicated that the radio module received a packet. This variable is set in an interrupt from the radio module.
+   For sending a packet call the \texttt{DLL\_send} function with the send type, receiver address, data and the length of data. In the send type you can specify if you want to request an acknowledge packet or not. The maximum length of one packet is 32 Byte.
+   
+   To receive a packet call the function \texttt{DLL\_receive}, which returns \texttt{0} if there is no received data in the module FIFO. To avoid polling this function, there is the variable \texttt{DLL\_irq\_rx\_counter} which indicated that the radio module received a packet. This variable is set in an interrupt from the radio module library.
    
      \section{Power electronics}
      The project utilizes 230 Volt direct from a standard power socket. In order to handle this potential risk of electric shock as safe as possible we chose to use an optocoupler and a triac for the dimming effect and a 
