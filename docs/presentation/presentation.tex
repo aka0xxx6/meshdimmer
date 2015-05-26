@@ -1,0 +1,179 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  This Beamer template was created by Cameron Bracken.
+%%  Anyone can freely use or modify it for any purpose
+%%  without attribution.
+%%
+%%  Last Modified: January 9, 2009
+%%
+\def\crashsign#1{
+	\begin{scope}[shift={#1}]%, rotate=#2]
+		\draw [color=red!130!black, fill=red!20!black, very thick]
+		(-0.15, -0.15) -- (0.15, 0.15);
+		\draw [color=red!130!black, fill=red!20!black, very thick]
+		(-0.15, 0.15) -- (0.15, -0.15);
+	\end{scope}
+}
+
+\documentclass[xcolor=x11names,compress]{beamer}
+
+%% General document %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{lmodern}
+\usepackage{amsmath,bm}
+
+\usepackage[babel,german=quotes]{csquotes}
+\usepackage[backend=biber,style=alphabetic]{biblatex}
+%\bibliography{bibliography.bib}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,automata,backgrounds,petri,positioning,calc}
+%\usetikzlibrary{decorations.fractals}
+
+
+\definecolor{myColor}{rgb}{0.73828125,0.1484375,0.203125}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\RequirePackage{filecontents}
+%\begin{filecontents*}{bibliography.bib}
+%@article{flp,
+% author = {Fischer, Michael J. and Lynch, Nancy A. and Paterson, Michael S.},
+% title = {Impossibility of Distributed Consensus with One Faulty Process},
+% journal = {J. ACM},
+% issue_date = {April 1985},
+% volume = {32},
+% number = {2},
+% month = apr,
+% year = {1985},
+% issn = {0004-5411},
+% pages = {374--382},
+% numpages = {9},
+%url = {http://doi.acm.org/10.1145/3149.214121},
+% doi = {10.1145/3149.214121},
+% acmid = {214121},
+% publisher = {ACM},
+% address = {New York, NY, USA},
+%} 
+%\end{filecontents*}
+
+
+
+
+%% Beamer Layout %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\useoutertheme[subsection=false,shadow]{miniframes}
+\useinnertheme{default}
+\usefonttheme{serif}
+\usepackage{palatino}
+
+\setbeamerfont{title like}{shape=\scshape}
+%\setbeamerfont{frametitle}{shape=\scshape}
+\setbeamerfont{caption}{size=\scriptsize}
+
+\setbeamercolor*{lower separation line head}{bg=myColor} 
+\setbeamercolor*{normal text}{fg=black,bg=white} 
+\setbeamercolor*{alerted text}{fg=red} 
+\setbeamercolor*{example text}{fg=black} 
+\setbeamercolor*{structure}{fg=black} 
+
+\setbeamercolor*{palette tertiary}{fg=black,bg=black!10} 
+\setbeamercolor*{palette quaternary}{fg=black,bg=black!10} 
+
+\setbeamertemplate{footline}[page number]
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{caption}[numbered]
+
+
+\renewcommand{\(}{\begin{columns}}
+\renewcommand{\)}{\end{columns}}
+\newcommand{\<}[1]{\begin{column}{#1}}
+	\renewcommand{\>}{\end{column}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Automatic Brightness Adjustment}
+\author{Lars Haulin, Robin Keller, Viktor Nordmark\\[1em] \textsc{\small{Uppsala Universitet}}}
+\date{June x, 2015}
+
+
+\begin{document}
+	\begin{frame}
+		\titlepage
+	\end{frame}
+	
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\begin{frame}{Content}
+		\tableofcontents
+	\end{frame}
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{\scshape Motiviation}
+	\subsection{}
+	\begin{frame}{Motivation}
+		\begin{itemize}
+			\item a
+			\item b
+		\end{itemize}
+	
+		\note[item]{notes can go here}
+	\end{frame}
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{\scshape Dimmer}
+	\subsection{Hardware}
+	\begin{frame}{Hardware}
+		\begin{itemize}
+			\item a
+			\item b
+		\end{itemize}
+		
+	\end{frame}
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\subsection{Software}
+	\begin{frame}{Software}
+		\begin{itemize}
+			\item a
+			\item b
+		\end{itemize}
+		
+	\end{frame}
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{\scshape Light Controller}
+	\subsection{Hardware}
+	\begin{frame}{Hardware}
+		\begin{itemize}
+			\item a
+			\item b
+		\end{itemize}
+		
+	\end{frame}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\subsection{Software}
+	\begin{frame}{Software}
+		\begin{itemize}
+			\item a
+			\item b
+		\end{itemize}
+		
+	\end{frame}
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\section{\scshape Conclusion}
+	\subsection{}
+	\begin{frame}{Conclusion}
+		\begin{itemize}
+			\item a
+			\item b
+		\end{itemize}
+	\end{frame}
+	
+	
+\end{document}
