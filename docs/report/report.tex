@@ -89,10 +89,23 @@
    To receive a packet call the function \texttt{DLL\_receive}, which returns \texttt{0} if there is no received data in the module FIFO. To avoid polling this function, there is the variable \texttt{DLL\_irq\_rx\_counter} which indicated that the radio module received a packet. This variable is set in an interrupt from the radio module library.
    
      \section{Power electronics}
-     The project utilizes 230 Volt direct from a standard power socket. In order to handle this potential risk of electric shock as safe as possible we chose to use an optocoupler and a triac for the dimming effect and a 
+     The project utilizes 230 Volt directly from a standard power socket. In order to handle this potential risk of electric shock as safe as possible we have chosen an optocoupler to separate the high voltage circuits from the lower voltage, control circuits. 
+The voltage was controlled from the microcontroller via a triac that actuated the on/off commands in the phase. In order to know where in the sinus cycle we currently are, we utilized a zero crossing detection in the form of  an optocoupler that sent a signal every time the phase went from positive to negative or vice versa. As the frequency in the Swedish power grid is 50 Hertz, the zero crossing will occur with a frequency of 100 Hertz. When the voltage crosses the zero point, the triac remains of and the proper wait time is calculated. When the accurate time has been achieved, the triac turns on and remains on until the sinus wave crosses the zero point once more.The longer the wait time is, the less power the light source recieves.
+The dimming circuit was based on drawings found online. (See drawing in appedix)\section{Phase control theory}
+The brightness of the light source is controlled by limiting how much of the sinus wave the light source recieves by adjusting the time when the triac is actuated. 
 
+	\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Sinuswave.png}
+    \caption{Sinus wave}
+    \label{fig:Sinus_wave}
+\end{figure}
 
+During the first period($t_{1}$) of the sinus wave the triac remains in off-state, waiting until the desired time has passed for the triac to fire and thus controll the brightness. When the time has passed, the microcontroller applies voltage to the triac's gate input just long enough($t_2$) for the triac to fire and let the remaining part of the sinus wave reach the light source.
 
+\section{Dimming software}
+
+Every time the alternating voltage passes through the zero point, the program jumps to an interrupt routine where the desired wait time is calculated and the triac output is activated. Since the voltage is rectified the interrupt routine is called with a frequency of 100Hz on the rising edge of the wave.
 
 
 
