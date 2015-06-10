@@ -90,7 +90,7 @@
 
 \title{Automatic Brightness Adjustment}
 \author{Lars Haulin, Robin Keller, Viktor Nordmark\\[1em] \textsc{\small{Uppsala Universitet}}}
-\date{June x, 2015}
+\date{June 11, 2015}
 
 
 \begin{document}
@@ -109,71 +109,124 @@
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\section{\scshape Motiviation}
 	\subsection{}
-	\begin{frame}{Motivation}
+	\begin{frame}{Concept}
 		\begin{itemize}
-			\item a
-			\item b
+			\item Hold fixed light intensity using
+			\begin{itemize}
+				\item Light bulb dimmer
+				\item Light sensor
+				\item Radio communication
+			\end{itemize}
 		\end{itemize}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.8\textwidth]{data_flow.png}
+			\caption{Data Flow}
+		\end{figure}
 	
 		\note[item]{notes can go here}
 	\end{frame}
+
 	
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\section{\scshape Dimmer}
-	\subsection{Hardware}
-	\begin{frame}{Hardware}
+	\subsection{}
+	\begin{frame}{Dimming Hardware and Software}
 		\begin{itemize}
-			\item a
-			\item b
+			\item Circuit
+			\item How it works
+			\item Theory
 		\end{itemize}
 		
 	\end{frame}
 	
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	\subsection{Software}
-	\begin{frame}{Software}
-		\begin{itemize}
-			\item a
-			\item b
-		\end{itemize}
+	\begin{frame}{Circuit}
+		
+		\begin{figure}[ht!]
+			\centering
+			\includegraphics[width=0.8\textwidth]{Circuit.png}
+			% \caption{Circuit}
+			\label{fig:circuit}
+		\end{figure} 
 		
 	\end{frame}
+	
+	\begin{frame}{Phase Control}
+		
+		\begin{figure}[ht!]
+			\centering
+			\includegraphics[width=0.8\textwidth]{Phase.png}
+			% \caption{Circuit}
+			\label{fig:circuit}
+		\end{figure} 
+		
+	\end{frame}
+
 	
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\section{\scshape Light Controller}
-	\subsection{Hardware}
-	\begin{frame}{Hardware}
+	\subsection{}
+	\begin{frame}{Light Controller}
 		\begin{itemize}
-			\item a
-			\item b
+			\item ...
+			\item ...
 		\end{itemize}
 		
 	\end{frame}
 
+
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	\subsection{Software}
-	\begin{frame}{Software}
+	\section{\scshape Radio Communication}
+	\subsection{}
+	\begin{frame}{Radio Communication using NRF24L01+}
 		\begin{itemize}
-			\item a
-			\item b
+			\item 2.4GHz, packet based messaging
+			\item Communicate to radio module via SPI
+			\item Maximum packet length of 32 Bytes
 		\end{itemize}
-		
 	\end{frame}
+	
+	\begin{frame}{Radio Module Library}
+		\begin{itemize}
+			\item Each module gets a unicast and broadcast address
+			\item Auto acknowledge for unicast packets
+			\item Minimal interface
+			\begin{itemize}
+				\item Initializing, sending and receiving each function each
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+	
 	
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\section{\scshape Conclusion}
 	\subsection{}
-	\begin{frame}{Conclusion}
+	\begin{frame}{Difficulties}
 		\begin{itemize}
-			\item a
-			\item b
+			\item Current peaks of radio module
+			\begin{itemize}
+				\item Increase size of capacitor
+			\end{itemize}
+			\item Packaging of light sensor
+			\item Explicit reset necessary to start radio module
+			\begin{itemize}
+				\item Set internal pullup for SPI
+			\end{itemize}
+			\item Reading value of light sensor
+			\begin{itemize}
+				\item Set acknowledge flag in I2C
+			\end{itemize}
 		\end{itemize}
 	\end{frame}
-	
+
+	\begin{frame}{Live Demo}
+		\begin{itemize}
+			\item Live Demo
+		\end{itemize}
+	\end{frame}	
 	
 \end{document}
