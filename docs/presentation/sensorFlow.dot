@@ -1,0 +1,34 @@
+digraph {
+   graph [rankdir = "TB"];
+   node [shape = "rectangle"];
+   edge [color = "#c4404d" ];
+   node [color = "#c4404d" fillcolor = "#d7899096" style=filled];
+
+   subgraph Flow {
+      rank = same;
+      light [shape = none label="Ambient light" fillcolor = white];
+      sensor [label = "MAX44008\nlight sensor"];
+      uc [label = "AVR 328\nmicrocontroller"];
+      nrf [label = "NRF24L01+\nradio module"];
+      radio [shape = none label="Radio signals" fillcolor = white];
+   }
+
+   light -> sensor;
+   sensor -> uc [label = "I2C"];
+   uc -> nrf [label = "SPI"];
+   nrf -> radio;
+
+   edge [style = dashed];
+   node [fillcolor = white];
+
+   usb1 [shape = none label = USB fillcolor = white];
+   isp [label = Programmer];
+   logic [label = "Saleae\nlogic analyzer"];
+   usb2 [shape = none label = USB fillcolor = white];
+   usb1 -> isp;
+   isp -> uc;
+   uc -> logic [xlabel= "Test points"];
+   uc -> logic [taillabel="UART"];
+   logic -> usb2;
+
+}

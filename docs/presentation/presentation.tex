@@ -132,6 +132,10 @@
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\section{\scshape Dimmer}
 	\subsection{}
+   \begin{frame}
+      \Huge{\centerline{Dimmer}}
+   \end{frame}
+
 	\begin{frame}{Dimming Hardware and Software}
 		\begin{itemize}
 			\item Circuit
@@ -166,14 +170,48 @@
 	
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	\section{\scshape Light Controller}
+	\section{\scshape Light Sensor Module}
 	\subsection{}
-	\begin{frame}{Light Controller}
-		\begin{itemize}
-			\item ...
-			\item ...
-		\end{itemize}
-		
+   \begin{frame}
+      \Huge{\centerline{Light Sensor Module}}
+   \end{frame}
+
+	\begin{frame}{Overwiew}
+      \center
+      \includegraphics[width=1.1\textwidth]{sensorFlow.pdf}
+	\end{frame}
+
+	\begin{frame}{Sensor chip: MAX44008}
+		Measures light, speaks I${}^2$C.
+
+		Free sampling and shipping. It is tiny!
+		\pause
+
+		\centering
+		\includegraphics[width=0.8\textwidth]{sensorCables.jpg}
+	\end{frame}
+
+	\begin{frame}{First attempt}
+		\centering
+		\includegraphics[width=0.8\textwidth]{buspirate.jpg}
+	\end{frame}
+
+
+	\begin{frame}{Checking analog signals}
+		\centering
+		\includegraphics[width=0.8\textwidth]{oscilloscope.jpg}
+	\end{frame}
+
+
+	\begin{frame}{Etching Breakout board}
+		\centering
+		\includegraphics[height=0.5\textheight]{etching.jpg}
+		\includegraphics[height=0.5\textheight]{breakout.jpg}
+	\end{frame}
+
+	\begin{frame}{Logic signals}
+		\centering
+		\includegraphics[width=0.8\textwidth]{logic.png}
 	\end{frame}
 
 
@@ -181,6 +219,10 @@
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\section{\scshape Radio Communication}
 	\subsection{}
+   \begin{frame}
+      \Huge{\centerline{Radio Communication}}
+   \end{frame}
+
 	\begin{frame}{Radio Communication using NRF24L01+}
 		\begin{itemize}
 			\item 2.4GHz, packet based messaging
