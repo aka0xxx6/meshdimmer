@@ -3,8 +3,9 @@
 // Button GND --> PB0
 // Potentimeter--> ADC0
 
+// Defined in makefile!
 //#define F_CPU 1000000UL  // 1MHz internal clock
-#define F_CPU 8000000UL  // 8MHz internal clock
+//#define F_CPU 8000000UL  // 8MHz internal clock
 //#define fullOn 10
 //#define fullOff 246
 
@@ -22,7 +23,7 @@
 
 #define DLL_ADDRESS 0x30
 
-
+#include "table.h"
 
 static inline void initADC0(void) {
 	ADCSRA |= (1 << ADEN); /* enable ADC */
@@ -58,7 +59,6 @@ ISR(TIMER1_COMPA_vect) {
 
 int main(void) {
 	uint16_t value;
-	uint16_t adcValue;
 	uint8_t dll_ret;
 	uint8_t buffer[DLL_MAX_PACKET_LEN];
 	uint8_t length;
@@ -105,12 +105,7 @@ int main(void) {
 
 			ADCSRA |= (1 << ADSC); // start ADC conversion
 			loop_until_bit_is_clear(ADCSRA, ADSC); // wait until done
-			adcValue = (ADC / 4.0); // read ADC in
-			if (adcValue > 226) {
-				value = 236;
-			} else {
-				value = 10 + adcValue;
-			}
+			value = (ADC / 4); // read ADC in
 			DEBUG_byte('b');
 			DEBUG_number(value);
 			DEBUG_newline();
@@ -118,13 +113,7 @@ int main(void) {
 
 		if (DLL_receive(buffer, &length)) {
 			if (length == 2) {
-				adcValue = *((uint16_t*) buffer);
-				adcValue = (adcValue / 4.0);
-				if (adcValue > 226) {
-					value = 236;
-				} else {
-					value = 10 + adcValue;
-				}
+				value = *((uint16_t*) buffer) / 4;
 			}
 
 			DEBUG_message(buffer, length);
@@ -136,7 +125,8 @@ int main(void) {
 
 
 		_delay_ms(50);        // wait 50ms between cycles
-		dimtime = 39 * value; //100000 - 10 us / 256 = 39
+		dimtime = lookup[255-value]; // TODO: Fix the order we send stuff in!
+
 	}
 
 }

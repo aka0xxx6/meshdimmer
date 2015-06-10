@@ -14,6 +14,8 @@
 #define DLL_ADDRESS ((uint8_t) 0x25)
 
 
+#include "../wirelessDimmer/table.c"
+
 /** Initializes the hardware */
 static void initHardware(void ) {
    uint8_t dll_ret;
@@ -102,16 +104,37 @@ TODO: REMOVE once i2c communication works as intended.
          if (sensor_data > radio_data) {
             /* Too bright */
             DEBUG_byte((uint8_t) '+');
-            if(control_output < (uint16_t) 1013) {
-               control_output += (uint16_t) 10;
+            if(sensor_data - radio_data > (uint16_t) 100) {
+               /* Go quick */
+                  control_output += (uint16_t) 10;
             }
+            else {
+               /* Go slow */
+                  control_output += (uint16_t) 1;
+            }
+            if(control_output > (uint16_t) 1023) {
+               control_output = (uint16_t) 1023;
+            }
+
          }
          else {
             /* Too dark */
             DEBUG_byte((uint8_t) '-');
-            if(control_output > 0) {
-               control_output -= (uint16_t) 10;
+
+            if(radio_data - sensor_data > (uint16_t) 100) {
+               /* Go quick */
+                  control_output -= (uint16_t) 10;
             }
+            else {
+               /* Go slow */
+                  control_output -= (uint16_t) 1;
+            }
+
+            if((control_output & 0x8000) != 0) {
+               /* Underflow occured! */
+               control_output = 0; 
+            }
+
          }
 #endif
 
