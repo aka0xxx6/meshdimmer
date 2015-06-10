@@ -16,7 +16,7 @@
 
 \begin{document}
 	\title{Microcontroller programming \\
-		Automatic dimming of lights using mesh network communication\\
+		Automatic Brightness Adjustment\\
 		TE663 Uppsala Universitet VT2015}
 	\date{}
 	\author{}
@@ -26,18 +26,18 @@
 	\maketitle
 	
    \abstract{In this project, a control system for lights was created.
-   The sensors and dimmers use a mesh network to communicate and keep a constant
+   The sensor and dimmer communication via radio communication and keep a constant
    level of illumination, regardless of external disturbances such as a sudden
    cloud blocking external sunlight.}
 
 	\section{Concept}
 	
-	Our idea is to control lights using dimmers and light sensors.
+	Our idea is to control light using a dimmer and a light sensor.
 
    The project concept was chosen to make maximal use of our teams experience
    in power electronics, automatic control and network algorithms.
 
-	The sensors and dimmers communicate with radio over a mesh network.
+	The sensor and dimmer communicate with radio over unidirectional network link.
 	There is also a possibility to add a user interface over the network to control
 	the brightness.
 	
@@ -51,22 +51,21 @@
 	\begin{itemize}
 		\item To control the brightness of a 230V light bulb with a microcontroller.
 		\item To measure the amount of light in a room with a microcontroller.
-		\item To communicate data between the microcontrollers over a mesh network.
+		\item To communicate data between the microcontrollers with a radio module.
 		\item To make the system capable to compensate for changes in illumination.
-		\item To control the system with a user interface node, also containing
-		a microcontroller.
 	\end{itemize}
 	
 	\section{Secondary goals}
    Additionally, we put up some secondary goals:
 	\begin{itemize}
-		\item To have several lamps and sensors
-		\item To automate calibration i.e., what lamp affects what sensor
+		\item To control the system with a user interface node, also containing a microcontroller.
+		\item To have several lamps and sensors.
+		\item To automate calibration i.e., what lamp affects what sensor.
 	\end{itemize}
 
    \section{Hardware design}
    As we had previous experience in our team of the nRF24L01+ radio module from
-   Nordic Semiconductor, it was chosen as a base for the mesh network.
+   Nordic Semiconductor, it was chosen as a base for the radio communication.
 
    We chose to dim the lights with a triac.
    
@@ -90,9 +89,14 @@
    
      \section{Power electronics}
      The project utilizes 230 Volt directly from a standard power socket. In order to handle this potential risk of electric shock as safe as possible we have chosen an optocoupler to separate the high voltage circuits from the lower voltage, control circuits. 
-The voltage was controlled from the microcontroller via a triac that actuated the on/off commands in the phase. In order to know where in the sinus cycle we currently are, we utilized a zero crossing detection in the form of  an optocoupler that sent a signal every time the phase went from positive to negative or vice versa. As the frequency in the Swedish power grid is 50 Hertz, the zero crossing will occur with a frequency of 100 Hertz. When the voltage crosses the zero point, the triac remains of and the proper wait time is calculated. When the accurate time has been achieved, the triac turns on and remains on until the sinus wave crosses the zero point once more.The longer the wait time is, the less power the light source recieves.
-The dimming circuit was based on drawings found online. (See drawing in appedix)\section{Phase control theory}
-The brightness of the light source is controlled by limiting how much of the sinus wave the light source recieves by adjusting the time when the triac is actuated. 
+The voltage was controlled from the microcontroller via a triac that actuated the on/off commands in the phase. In order to know where in the sinus cycle we currently are, we utilized a zero crossing detection in the form of  an optocoupler that sent a signal every time the phase went from positive to negative or vice versa. As the frequency in the Swedish power grid is 50 Hertz, the zero crossing will occur with a frequency of 100 Hertz. 
+When the voltage crosses the zero point, the triac remains of and the proper wait time is calculated. When the accurate time has been achieved, the triac turns on and remains on until the sinus wave crosses the zero point once more.
+The longer the wait time is, the less power the light source recieves.
+The dimming circuit was based on drawings found online. (See drawing in appedix)
+
+\section{Phase control theory}
+
+The brightness of the light source is controlled by limiting how much of the sinus wave the light source recieves by adjusting the time when the triac is actuated. 
 
 	\begin{figure}[ht!]
     \centering
