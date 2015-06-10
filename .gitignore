@@ -10,3 +10,9 @@
 *.o
 /Debug/
 /Release/
+*.bcf
+*.nav
+*.out
+*.run.xml
+*.snm
+*.toc
